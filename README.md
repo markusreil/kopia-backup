@@ -70,7 +70,7 @@ Agent env vars (all required unless noted):
 - `KOPIA_SERVER_FINGERPRINT` — from the server's `/repo/certs/fingerprint`.
 - `KOPIA_CLIENT_PASSWORD` — this cluster's conduit user password.
 - `AGENT_SCHEDULE` (optional, default `@daily`) — default schedule for volumes with no `backup.<id>.schedule` label.
-- `DOCKER_HOST` (optional) — local socket path, e.g. `unix:///tmp/docker.sock`.
+- `DOCKER_HOST` — local socket path, e.g. `unix:///tmp/docker.sock` (must match where the socket is mounted).
 
 ## Versions
 

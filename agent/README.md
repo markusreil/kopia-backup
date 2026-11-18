@@ -44,6 +44,19 @@ later is logged and that line never fires.
 file written by the entrypoint) so `docker compose exec` sessions can run
 kopia commands; the entrypoint's own environment is not inherited by exec.
 
+## Labels
+
+Volumes opt in per container; `<id>` matches a mount by volume name,
+full destination path (`/<id>`), or destination basename:
+
+- `backup.<id>.enabled=true` — the only required label.
+- `backup.<id>.schedule` (optional) — cron-ish schedule for this volume,
+  else `$AGENT_SCHEDULE`, else `@daily`.
+- `backup.<id>.keep-<latest|hourly|daily|weekly|monthly|annual>`
+  (optional) — retention count for this volume; absent knobs are passed
+  as `inherit`, so removing a label resets the knob instead of leaving a
+  stale value.
+
 ## Identity
 
 kopia 0.22 has no username override flags, so identity is
@@ -66,4 +79,5 @@ live only on the server.
   environment by the crontab template. 5-field cron plus `@hourly`,
   `@daily`, `@weekly`, `@monthly`, `@yearly` — supercronic has no
   `@minutely`/`@midnight` (use `* * * * *` / `@daily`).
-- `DOCKER_HOST` — the local socket path (default baked into the image).
+- `DOCKER_HOST` — local socket path, e.g. `unix:///tmp/docker.sock`
+  (must match where the socket is mounted).
