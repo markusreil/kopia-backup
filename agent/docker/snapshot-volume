@@ -36,8 +36,16 @@ if [ -n "$keeps" ]; then
   # Unquoted split is safe: options are whitelisted above and values are
   # counts or the literal inherit.
   # shellcheck disable=SC2086
-  kopia policy set $keeps "/mnt/$vol" >/dev/null \
-    || { echo "[agent] policy failed for $vol" >&2; exit 1; }
+  if ! err=$(kopia policy set $keeps "/mnt/$vol" 2>&1); then
+    echo "[agent] policy failed for $vol: $err" >&2
+    exit 1
+  fi
 fi
-kopia snapshot create "/mnt/$vol" >/dev/null \
-  && echo "[agent] snapshotted $vol"
+# A failed snapshot fails only this supercronic job, never the container:
+# supercronic logs it and fires the next schedule as usual.
+if err=$(kopia snapshot create "/mnt/$vol" 2>&1); then
+  echo "[agent] snapshotted $vol"
+else
+  echo "[agent] snapshot failed for $vol: $err" >&2
+  exit 1
+fi

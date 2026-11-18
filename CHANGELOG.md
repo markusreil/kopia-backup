@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `snapshot-volume` logs kopia's error output when a policy or snapshot run
+  fails, instead of discarding it. A failed backup still fails only that
+  supercronic job — the agent and the cluster keep running.
+
 ## [0.1.0] - 2026-11-18
 
 ### Added
