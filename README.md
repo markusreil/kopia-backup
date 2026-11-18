@@ -1,5 +1,7 @@
 # kopia-backup images
 
+[![server](https://img.shields.io/docker/v/mreil/kopia-server?sort=semver&logo=docker&label=server)](https://hub.docker.com/r/mreil/kopia-server) [![agent](https://img.shields.io/docker/v/mreil/kopia-agent?sort=semver&logo=docker&label=agent)](https://hub.docker.com/r/mreil/kopia-agent)
+
 Docker build contexts for the kopia backup server and agent, extracted
 from `../docker-backup` (which keeps the compose clusters, tests, and docs).
 This repo owns the images; `docker-backup` consumes them.
